@@ -739,8 +739,8 @@ function submitForm(e) {
     `Email: ${email}\n\n` +
     `Quest Title: ${questTitle}\n\n` +
     `Quest Details:\n${questDetails}\n\n` +
-    `---\nSent from your portfolio website\n` +
-    `Please reply to: ${email}`;
+    `---\nSent from Samuel's Portfolio\n` +
+    `Reply to: ${email}`;
 
   // Copy ke clipboard
   navigator.clipboard.writeText(message).then(() => {
@@ -748,7 +748,7 @@ function submitForm(e) {
     feedback.classList.remove('hidden');
     e.target.reset();
     
-    alert('✅ Message copied to clipboard!\n\nPlease open your email client and send to:\nsamuel.sinurat05@gmail.com\n\nPaste the message there.');
+    alert('✅ Message copied to clipboard!\n\n📧 Please open Gmail and send to:\nsamuel.sinurat05@gmail.com\n\n📋 Then paste (Ctrl+V) the message.');
     
     setTimeout(() => {
       btnText.textContent = 'SUBMIT QUEST';
