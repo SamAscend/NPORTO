@@ -716,7 +716,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ========== FORM SUBMIT ==========
-// ========== FORM SUBMIT - FIXED ==========
 function submitForm(e) {
   e.preventDefault();
   
@@ -729,9 +728,8 @@ function submitForm(e) {
   const btnArrow = document.getElementById('btn-a');
   const feedback = document.getElementById('fs');
 
-  // Validasi email Gmail (opsional, bisa dihapus kalau mau terima semua email)
-  if (!email.includes('@') || !email.includes('.')) {
-    alert('Please enter a valid email address.');
+  if (!name || !email || !questDetails) {
+    alert('Please fill all required fields.');
     return;
   }
 
@@ -739,21 +737,21 @@ function submitForm(e) {
   btnText.textContent = 'SENDING...';
   btnArrow.style.opacity = '0';
 
-  // Menggunakan Web3Forms (free, reliable)
-  fetch('https://api.web3forms.com/submit', {
+  // Pakai FormSubmit.co dengan parameter tambahan
+  fetch('https://formsubmit.co/ajax/samuel.sinurat05@gmail.com', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
     body: JSON.stringify({
-      access_key: 'a2b3c4d5-e6f7-8g9h-0i1j-2k3l4m5n6o7p', // FREE public key
       name: name,
       email: email,
-      subject: `[NEW QUEST] ${questTitle} - from ${name}`,
-      message: `Name: ${name}\nEmail: ${email}\n\nQuest Title: ${questTitle}\n\nQuest Details:\n${questDetails}`,
-      from_name: name,
-      replyto: email
+      _subject: `[NEW QUEST] ${questTitle} - from ${name}`,
+      message: questDetails,
+      _replyto: email,
+      _captcha: 'false',
+      _template: 'table'
     })
   })
   .then(response => response.json())
@@ -780,7 +778,12 @@ function submitForm(e) {
       btnArrow.style.opacity = '1';
       submitBtn.disabled = false;
     }, 2000);
-    alert('Failed to send. Please email directly to samuel.sinurat05@gmail.com');
+    // Fallback ke mailto
+    const subject = encodeURIComponent(`[NEW QUEST] ${questTitle} - from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${questDetails}`);
+    if (confirm('Direct send failed. Open email client instead?')) {
+      window.location.href = `mailto:samuel.sinurat05@gmail.com?subject=${subject}&body=${body}`;
+    }
   });
 }
 </script>
